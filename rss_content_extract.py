@@ -1,5 +1,6 @@
 import feedparser
 
+
 rss_url = "https://www.msit.go.kr/user/rss/rss.do?bbsSeqNo=96" # 읽어올 RSS 피드 URL
 feed = feedparser.parse(rss_url)
 

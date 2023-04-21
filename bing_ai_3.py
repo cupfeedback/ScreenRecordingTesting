@@ -77,6 +77,8 @@ def replay_keyboard_event(event):
         keyboard.release(key)
 
 # Define a function to replay a mouse event
+# 이 에러에 맞게 하단의 코드를 수정해줘 pyautogui.PyAutoGUIException: button argument must be one of ('left', 'middle', 'right', 'primary', 'secondary', 1, 2, 3)
+# pyautogui.mouseDown(x, y, button=button) 에서 button=button 부분을 수정해줘야 함
 def replay_mouse_event(event):
     event_type, *args = event
     if event_type == 'move':
@@ -85,6 +87,23 @@ def replay_mouse_event(event):
     elif event_type == 'click':
         x, y, button, pressed = args
         if pressed:
+            #button을 수정해줘야 함
+            if button == 'Button.left':
+                button = 'left'
+            elif button == 'Button.middle':
+                button = 'middle'
+            elif button == 'Button.right':
+                button = 'right'
+            elif button == 'Button.x1':
+                button = 'primary'
+            elif button == 'Button.x2':
+                button = 'secondary'
+            elif button == '1':
+                button = 1
+            elif button == '2':
+                button = 2
+            elif button == '3':
+                button = 3
             pyautogui.mouseDown(x, y, button=button)
         else:
             pyautogui.mouseUp(x, y, button=button)
@@ -98,6 +117,8 @@ def replay_events():
     # Load the recorded events from a file
     with open('events.json', 'r') as f:
         data = json.load(f)
+        global mouse_events
+        global keyboard_events
         mouse_events = data['mouse']
         keyboard_events = data['keyboard']
 
